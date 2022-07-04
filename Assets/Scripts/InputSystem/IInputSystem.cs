@@ -8,4 +8,5 @@ public interface IInputSystem
     float MouseY();
     float HorizontalX();
     float VerticalX();
+    bool OnJump();
 }

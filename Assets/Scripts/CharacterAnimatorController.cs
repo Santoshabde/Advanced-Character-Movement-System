@@ -16,7 +16,8 @@ public class CharacterAnimatorController : MonoBehaviour
 
     private void Update()
     {
-        characterAnimator.SetFloat(MOVE, characterLocomotion.MoveInput.magnitude);
+        if (characterLocomotion.IsCharacterGrounded())
+            characterAnimator.SetFloat(MOVE, characterLocomotion.MoveInput.magnitude);
     }
 
     private void GetRequiredComponents()
@@ -27,4 +28,17 @@ public class CharacterAnimatorController : MonoBehaviour
         if (characterAnimator == null)
             characterAnimator = GetComponent<Animator>();
     }
+
+    public void PlayParkourAnimation(string parkourAnimationName)
+    {
+        characterAnimator.Play(parkourAnimationName);
+       
+    }
+
+    public void AnimationMatchTarget(Vector3 targetPoint, Quaternion rotation, AvatarTarget avtarTarget, Vector3 positionXYZWeight, float rotationWight, float startNormalizedTime, float targetNormalizedTime)
+    {
+        characterAnimator.MatchTarget(targetPoint, rotation, avtarTarget, new MatchTargetWeightMask(positionXYZWeight, rotationWight), startNormalizedTime, targetNormalizedTime);
+    }
+
+    public AnimatorStateInfo GetCurrentStateInfo(int layer) => characterAnimator.GetCurrentAnimatorStateInfo(layer);
 }

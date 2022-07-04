@@ -19,6 +19,11 @@ public class KeyboardAndMouseInputSystem : IInputSystem
         return Input.GetAxis("Mouse Y");
     }
 
+    public bool OnJump()
+    {
+        return Input.GetKey(KeyCode.Space);
+    }
+
     public float VerticalX()
     {
         return Input.GetAxis("Vertical");
