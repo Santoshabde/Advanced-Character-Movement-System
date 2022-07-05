@@ -17,7 +17,7 @@ public class CharacterLocomotion : MonoBehaviour
 
     private IInputSystem inputSystem;
     private Vector3 moveDirection;
-    private Vector3 moveInput;
+    public Vector3 moveInput;
     private bool hasControl = true;
 
     public Vector3 MoveInput => moveInput;
@@ -29,13 +29,12 @@ public class CharacterLocomotion : MonoBehaviour
 
     private void Update()
     {
-        moveInput = new Vector3(inputSystem.HorizontalX(), 0, inputSystem.VerticalX());
-
         if (!hasControl)
             return;
 
         if (IsCharacterGrounded())
         {
+            moveInput = new Vector3(inputSystem.HorizontalX(), 0, inputSystem.VerticalX());
             if (CanCharacterMove())
             {
                 MoveCharacter(moveInput);
@@ -45,8 +44,8 @@ public class CharacterLocomotion : MonoBehaviour
         {
             moveInput.x = 0;
             moveInput.z = 0;
-            moveInput.y -= Time.deltaTime * Physics.gravity.magnitude;
-            characterController.Move(moveInput);
+            moveInput.y -= Time.deltaTime * Physics.gravity.magnitude * 0.01f;
+            characterController.Move((transform.forward * Time.deltaTime * 3f) + moveInput);
         }
     }
 
@@ -57,7 +56,7 @@ public class CharacterLocomotion : MonoBehaviour
 
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * characterTurnSpeed);
 
-        Vector3 velocity = (moveDirection) * characterSpeed * Time.deltaTime;
+        Vector3 velocity = (moveDirection + new Vector3(0, -0.2f, 0)) * characterSpeed * Time.deltaTime;
         characterController.Move(velocity);
     }
 

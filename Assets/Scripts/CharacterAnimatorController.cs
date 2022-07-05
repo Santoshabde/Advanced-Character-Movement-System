@@ -17,7 +17,16 @@ public class CharacterAnimatorController : MonoBehaviour
     private void Update()
     {
         if (characterLocomotion.IsCharacterGrounded())
+        {
             characterAnimator.SetFloat(MOVE, characterLocomotion.MoveInput.magnitude);
+            characterAnimator.SetBool("onGround", true);
+        }
+        else
+        {
+            //Character in the air!!
+            characterAnimator.SetFloat(MOVE, 0);
+            characterAnimator.SetBool("onGround", false);
+        }
     }
 
     private void GetRequiredComponents()
